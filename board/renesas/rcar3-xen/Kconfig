@@ -1,0 +1,15 @@
+if TARGET_RCAR3_XEN
+
+config SYS_SOC
+	default "rmobile"
+
+config SYS_BOARD
+	default "rcar3-xen"
+
+config SYS_VENDOR
+	default "renesas"
+
+config SYS_CONFIG_NAME
+	default "rcar3-xen"
+
+endif

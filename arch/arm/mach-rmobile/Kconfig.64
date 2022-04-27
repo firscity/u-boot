@@ -6,6 +6,11 @@ config SYS_MALLOC_F_LEN
 config OF_LIBFDT_OVERLAY
 	default y if RCAR_64
 
+config RCAR_XEN
+	bool
+	help
+          U-boot as Xen domain bootloader with Renesas drivers
+
 source "arch/arm/mach-rmobile/Kconfig.rcar3"
 source "arch/arm/mach-rmobile/Kconfig.rcar4"
 

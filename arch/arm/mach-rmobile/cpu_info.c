@@ -5,6 +5,7 @@
  */
 #include <common.h>
 #include <cpu_func.h>
+#include <asm/arch/rmobile.h>
 #include <asm/cache.h>
 #include <init.h>
 #include <asm/io.h>
@@ -57,6 +58,7 @@ static u32 __rmobile_get_cpu_rev_fraction(void)
 u32 rmobile_get_cpu_rev_fraction(void)
 		__attribute__((weak, alias("__rmobile_get_cpu_rev_fraction")));
 
+#if !defined(CONFIG_RCAR_XEN)
 /* CPU information table */
 static const struct {
 	u16 cpu_type;
@@ -133,6 +135,8 @@ int print_cpuinfo(void)
 
 	return 0;
 }
+#endif /* CONFIG_RCAR_XEN */
+
 #elif defined(CONFIG_RZA1)
 int print_cpuinfo(void)
 {
