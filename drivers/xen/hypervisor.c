@@ -230,7 +230,7 @@ void mask_evtchn(uint32_t port)
 {
 	struct shared_info *s = HYPERVISOR_shared_info;
 
-	synch_set_bit(port, &s->evtchn_mask[0]);
+//	synch_set_bit(port, &s->evtchn_mask[0]);
 }
 
 void unmask_evtchn(uint32_t port)
