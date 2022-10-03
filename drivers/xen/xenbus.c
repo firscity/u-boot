@@ -77,16 +77,13 @@ static void memcpy_from_ring(const void *r, void *d, int off, int len)
 static bool xenbus_get_reply(struct xsd_sockmsg **req_reply)
 {
 	struct xsd_sockmsg msg;
-	unsigned int prod = xenstore_buf->rsp_prod;
-
 again:
-	if (!wait_event_timeout(NULL, prod != xenstore_buf->rsp_prod,
+	if (!wait_event_timeout(NULL, xenstore_buf->rsp_cons != xenstore_buf->rsp_prod,
 				WAIT_XENBUS_TO_MS)) {
 		printk("%s: wait_event timeout\n", __func__);
 		return false;
 	}
 
-	prod = xenstore_buf->rsp_prod;
 	if (xenstore_buf->rsp_prod - xenstore_buf->rsp_cons < sizeof(msg))
 		goto again;
 
@@ -303,6 +300,7 @@ char *xenbus_ls(xenbus_transaction_t xbt, const char *pre, char ***contents)
 	struct write_req req[] = { { pre, strlen(pre) + 1 } };
 	int nr_elems, x, i;
 	char **res, *msg;
+	printk("%s\n", __func__);
 
 	repmsg = xenbus_msg_reply(XS_DIRECTORY, xbt, req, ARRAY_SIZE(req));
 	msg = errmsg(repmsg);
@@ -333,6 +331,7 @@ char *xenbus_read(xenbus_transaction_t xbt, const char *path, char **value)
 	struct xsd_sockmsg *rep;
 	char *res, *msg;
 
+	printk("%s\n", __func__);
 	rep = xenbus_msg_reply(XS_READ, xbt, req, ARRAY_SIZE(req));
 	msg = errmsg(rep);
 	if (msg) {
@@ -357,6 +356,7 @@ char *xenbus_write(xenbus_transaction_t xbt, const char *path,
 	struct xsd_sockmsg *rep;
 	char *msg;
 
+	printk("%s\n", __func__);
 	rep = xenbus_msg_reply(XS_WRITE, xbt, req, ARRAY_SIZE(req));
 	msg = errmsg(rep);
 	if (msg)
@@ -371,6 +371,7 @@ char *xenbus_rm(xenbus_transaction_t xbt, const char *path)
 	struct xsd_sockmsg *rep;
 	char *msg;
 
+	printk("%s\n", __func__);
 	rep = xenbus_msg_reply(XS_RM, xbt, req, ARRAY_SIZE(req));
 	msg = errmsg(rep);
 	if (msg)
@@ -385,6 +386,7 @@ char *xenbus_get_perms(xenbus_transaction_t xbt, const char *path, char **value)
 	struct xsd_sockmsg *rep;
 	char *res, *msg;
 
+	printk("%s\n", __func__);
 	rep = xenbus_msg_reply(XS_GET_PERMS, xbt, req, ARRAY_SIZE(req));
 	msg = errmsg(rep);
 	if (msg) {
@@ -413,6 +415,7 @@ char *xenbus_set_perms(xenbus_transaction_t xbt, const char *path,
 
 	snprintf(value, PERM_MAX_SIZE, "%c%hu", perm, dom);
 	req[1].len = strlen(value) + 1;
+	printk("%s\n", __func__);
 	rep = xenbus_msg_reply(XS_SET_PERMS, xbt, req, ARRAY_SIZE(req));
 	msg = errmsg(rep);
 	if (msg)
@@ -430,6 +433,7 @@ char *xenbus_transaction_start(xenbus_transaction_t *xbt)
 	struct xsd_sockmsg *rep;
 	char *err;
 
+	printk("%s\n", __func__);
 	rep = xenbus_msg_reply(XS_TRANSACTION_START, 0, &req, 1);
 	err = errmsg(rep);
 	if (err)
@@ -449,6 +453,7 @@ char *xenbus_transaction_end(xenbus_transaction_t t, int abort, int *retry)
 
 	req.data = abort ? "F" : "T";
 	req.len = 2;
+	printk("%s\n", __func__);
 	rep = xenbus_msg_reply(XS_TRANSACTION_END, t, &req, 1);
 	err = errmsg(rep);
 	if (err) {
@@ -548,6 +553,7 @@ void init_xenbus(void)
 
 	if (hvm_get_parameter(HVM_PARAM_STORE_PFN, &v))
 		BUG();
+	printk("%s: evtchn=%d, pfn=%08x\n", __func__, xenbus_evtchn, v);
 	xenstore_buf = (struct xenstore_domain_interface *)map_frame_virt(v);
 }
 
