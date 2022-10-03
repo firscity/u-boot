@@ -43,6 +43,6 @@
 
 /* Ethernet RAVB */
 #define CONFIG_BITBANGMII_MULTI
-
+#define PHY_ANEG_TIMEOUT       20000
 
 #endif /* __SALVATOR_X_XEN_H */
