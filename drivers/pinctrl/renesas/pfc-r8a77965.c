@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <dm/pinctrl.h>
 #include <linux/kernel.h>
+#include <linux/bitops.h>
 
 #include "sh_pfc.h"
 

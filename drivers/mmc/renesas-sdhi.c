@@ -20,6 +20,7 @@
 #include <linux/sizes.h>
 #include <power/regulator.h>
 #include <asm/unaligned.h>
+#include <mach/rmobile.h>
 #include "tmio-common.h"
 
 #if CONFIG_IS_ENABLED(MMC_UHS_SUPPORT) || \

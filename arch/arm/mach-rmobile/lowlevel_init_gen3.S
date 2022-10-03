@@ -24,13 +24,6 @@ rcar_atf_boot_args:
 	.dword 0
 	.dword 0
 
-ENTRY(save_boot_params)
-	adr	x8, rcar_atf_boot_args
-	stp	x0, x1, [x8], #16
-	stp	x2, x3, [x8], #16
-	b	save_boot_params_ret
-ENDPROC(save_boot_params)
-
 .pushsection .text.s_init, "ax"
 WEAK(s_init)
 	ret

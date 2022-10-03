@@ -3,8 +3,8 @@
 # (C) Copyright 2000-2006
 # Wolfgang Denk, DENX Software Engineering, wd@denx.de.
 
-#obj-y = cpu_info.o
-#obj-y += emac.o
+obj-y = cpu_info.o
+obj-y += emac.o
 
 obj-$(CONFIG_DISPLAY_BOARDINFO) += board.o
 obj-$(CONFIG_GLOBAL_TIMER) += timer.o

@@ -10,6 +10,7 @@
 #include <asm/io.h>
 #include <env.h>
 #include <linux/ctype.h>
+#include <mach/rmobile.h>
 
 #ifdef CONFIG_ARCH_CPU_INIT
 int arch_cpu_init(void)
@@ -88,38 +89,38 @@ static int rmobile_cpuinfo_idx(void)
 }
 
 #ifdef CONFIG_ARCH_MISC_INIT
-int arch_misc_init(void)
-{
-	int i, idx = rmobile_cpuinfo_idx();
-	char cpu[10] = { 0 };
-
-	for (i = 0; i < sizeof(cpu); i++)
-		cpu[i] = tolower(rmobile_cpuinfo[idx].cpu_name[i]);
-
-	env_set("platform", cpu);
-
-	return 0;
-}
+//int arch_misc_init(void)
+//{
+//	int i, idx = rmobile_cpuinfo_idx();
+//	char cpu[10] = { 0 };
+//
+//	for (i = 0; i < sizeof(cpu); i++)
+//		cpu[i] = tolower(rmobile_cpuinfo[idx].cpu_name[i]);
+//
+//	env_set("platform", cpu);
+//
+//	return 0;
+//}
 #endif
 
-int print_cpuinfo(void)
-{
-	int i = rmobile_cpuinfo_idx();
-
-	if (rmobile_cpuinfo[i].cpu_type == RMOBILE_CPU_TYPE_R8A7796) {
-		if ((rmobile_get_cpu_rev_integer() == 1) &&
-		    (rmobile_get_cpu_rev_fraction() == 1)) {
-			printf("CPU: Renesas Electronics R8A7796 rev 1.1/rev 1.2\n");
-			return 0;
-		}
-	}
-
-	printf("CPU: Renesas Electronics %s rev %d.%d\n",
-		rmobile_cpuinfo[i].cpu_name, rmobile_get_cpu_rev_integer(),
-		rmobile_get_cpu_rev_fraction());
-
-	return 0;
-}
+//int print_cpuinfo(void)
+//{
+//	int i = rmobile_cpuinfo_idx();
+//
+//	if (rmobile_cpuinfo[i].cpu_type == RMOBILE_CPU_TYPE_R8A7796) {
+//		if ((rmobile_get_cpu_rev_integer() == 1) &&
+//		    (rmobile_get_cpu_rev_fraction() == 1)) {
+//			printf("CPU: Renesas Electronics R8A7796 rev 1.1/rev 1.2\n");
+//			return 0;
+//		}
+//	}
+//
+//	printf("CPU: Renesas Electronics %s rev %d.%d\n",
+//		rmobile_cpuinfo[i].cpu_name, rmobile_get_cpu_rev_integer(),
+//		rmobile_get_cpu_rev_fraction());
+//
+//	return 0;
+//}
 #else
 int print_cpuinfo(void)
 {
