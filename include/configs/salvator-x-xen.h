@@ -37,9 +37,14 @@
 #define CONFIG_EXTRA_ENV_SETTINGS	\
 	"ethaddr=2E:09:0A:00:A0:4B\0 ipaddr=192.168.1.20\0 serverip=192.168.1.10\0" \
 	"fdt_high=0xffffffffffffffff\0" \
-	"bootargs=ignore_loglevel rw ip=192.168.1.20 rootfstype=nfs root=/dev/nfs " \
-	"nfsroot=192.168.1.10:/home/dfirsov/board_dir/domd,nfsvers=3,vers=3,tcp console=ttySC0,115200\0" \
-	"bootcmd=tftp 0x42080000 domd_dumped.dtb; tftp 0x43000000 domd_image; booti 0x43000000 - 0x42080000\0"
+	"bootargs_nfs=ignore_loglevel rw ip=192.168.1.20 rootfstype=nfs root=/dev/nfs " \
+	"nfsroot=192.168.1.10:/srv/domd_weston_demo,nfsvers=3,vers=3,tcp console=ttySC0,115200\0" \
+	"bootargs_mmc=ignore_loglevel rw ip=192.168.1.20 root=/dev/mmcblk1p2 rootwait console=ttySC0,115200\0"\
+	"bootcmd_nfs=setenv bootargs ${bootargs_nfs}; tftp 0x42080000 domd_dumped.dtb;"\
+	"tftp 0x43000000 domd_image; booti 0x43000000 - 0x42080000\0"\
+	"bootcmd_mmc=setenv bootargs ${bootargs_mmc}; ext4load mmc 0:1 0x42080000 domd_dumped.dtb;"\
+	"ext4load mmc 0:1 0x43000000 domd_image; booti 0x43000000 - 0x42080000\0"\
+	"bootcmd=run bootcmd_mmc\0"
 
 /* Ethernet RAVB */
 #define CONFIG_BITBANGMII_MULTI
