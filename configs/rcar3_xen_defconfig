@@ -18,7 +18,9 @@ CONFIG_SYS_BARGSIZE=1024
 CONFIG_SUPPORT_RAW_INITRD=y
 CONFIG_OF_SYSTEM_SETUP=y
 CONFIG_USE_BOOTARGS=y
-CONFIG_BOOTARGS="root=/dev/nfs rw nfsroot=192.168.0.1:/export/rfs ip=192.168.0.20"
+CONFIG_BOOTARGS="root=/dev/mmcblk1p4 ro rootwait console=hvc0 clk_ignore_unused pci=pcie_bus_perf vardir.disk=/dev/mmcblk1p5 opendisk.target=/dev/mmcblk1p6 opendisk.pkcs11=optee aosupdate.disk=/dev/aosvg/workdirs aosupdate.path=um/update_rootfs aosupdate.selinux_module=/usr/share/selinux/aos/base.pp"
+CONFIG_USE_BOOTCOMMAND=y
+CONFIG_BOOTCOMMAND="ext4load mmc 1:1 0x44001000 linux-domd; ext4load mmc 1:1 0x81000000 initramfs-domd; booti 0x44001000 0x81000000:0x${filesize} 0x48000000"
 CONFIG_HUSH_PARSER=y
 CONFIG_SYS_MAXARGS=64
 CONFIG_CMD_BOOTZ=y
