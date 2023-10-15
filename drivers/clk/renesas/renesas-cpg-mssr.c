@@ -120,6 +120,15 @@ int renesas_clk_remove(void __iomem *base, struct cpg_mssr_info *info)
 {
 	unsigned int i;
 
+	if (IS_ENABLED(CONFIG_RCAR_XEN)) {
+		/*
+		 * FIXME: we should turn clocks off, but only for devices, that
+		 * assigned to DomD. Temporary left them as is to prevent faults
+		 * in other domains.
+		 */
+		return 0;
+	}
+
 	/* Stop TMU0 */
 	clrbits_le32(TMU_BASE + TSTR0, TSTR0_STR0);
 
